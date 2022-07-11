@@ -30,14 +30,32 @@ class LoginViewController: UIViewController {
         }
     }
     
-    
-    
     func handleSessionResponse(success: Bool, error: Error?) {
         setLoggingIn(false)
         if success {
-            performSegue(withIdentifier: "completeLogin", sender: nil)
+            self.handleGetUserInfo(success: success, error: error)
         } else {
-            showLoginFailure(message: error?.localizedDescription ?? "")
+            self.showLoginFailure(message: error?.localizedDescription ?? "")
+        }
+    }
+    
+    func handleGetUserInfo(success: Bool, error: Error?){
+        if success{
+            APIClient.getUser(userId: APIClient.Auth.userKey){
+                success, error in
+                print(success?.user.key)
+                self.handleLoginResponse(success: success?.user.key.isEmpty != nil, error: error)
+            }
+        }else{
+            self.showLoginFailure(message: error?.localizedDescription ?? "")
+        }
+    }
+    
+    func handleLoginResponse(success: Bool, error: Error?){
+        if success{
+                performSegue(withIdentifier: "completeLogin", sender: nil)
+        }else{
+            self.showLoginFailure(message: error?.localizedDescription ?? "")
         }
     }
     

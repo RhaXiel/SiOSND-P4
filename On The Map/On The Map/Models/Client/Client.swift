@@ -14,8 +14,8 @@ class APIClient {
         //static var accountId = 0
         //static var requestToken = ""
         static var sessionId = ""
+        static var userKey = ""
     }
-    
     
     enum Endpoints {
         static let base = "https://onthemap-api.udacity.com/v1"
@@ -208,7 +208,7 @@ class APIClient {
             do {
                 let range = (5..<data.count)
                 let newData = data.subdata(in: range)
-                let responseObject = try decoder.decode(ResponseType.self, from: newData)
+                let responseObject = try decoder.decode(ResponseType.self, from: data)
                 DispatchQueue.main.async {
                     completion(responseObject, nil)
                 }
@@ -267,6 +267,7 @@ class APIClient {
         taskForPOSTSessionRequest(url: Endpoints.postSession.url, responseType: PostSessionResponse.self, body: body) { response, error in
             if let response = response {
                 Auth.sessionId = response.session.id
+                Auth.userKey = response.account.key
                 completion(response, nil)
             } else {
                 completion(nil, error)
@@ -278,6 +279,7 @@ class APIClient {
         taskForDELETERequest(url: Endpoints.deleteSession.url, responseType: DeleteSessionResponse.self) { response, error in
             if let response = response {
                 Auth.sessionId = ""
+                Auth.userKey = ""
                 completion(response, nil)
             } else {
                 completion(nil, error)
@@ -295,76 +297,4 @@ class APIClient {
         }
     }
     
-    /*
-     class func createSessionId(completion: @escaping (Bool, Error?) -> Void) {
-     let body = PostSession(requestToken: Auth.requestToken)
-     taskForPOSTRequest(url: Endpoints.createSessionId.url, responseType: SessionResponse.self, body: body) { response, error in
-     if let response = response {
-     Auth.sessionId = response.sessionId
-     completion(true, nil)
-     } else {
-     completion(false, nil)
-     }
-     }
-     }
-     
-     class func logout(completion: @escaping () -> Void) {
-     var request = URLRequest(url: Endpoints.logout.url)
-     request.httpMethod = "DELETE"
-     let body = LogoutRequest(sessionId: Auth.sessionId)
-     request.httpBody = try! JSONEncoder().encode(body)
-     request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-     let task = URLSession.shared.dataTask(with: request) { data, response, error in
-     Auth.requestToken = ""
-     Auth.sessionId = ""
-     completion()
-     }
-     task.resume()
-     }
-     
-     class func search(query: String, completion: @escaping ([Movie], Error?) -> Void) -> URLSessionDataTask {
-     let task = taskForGETRequest(url: Endpoints.search(query).url, responseType: MovieResults.self) { response, error in
-     if let response = response {
-     completion(response.results, nil)
-     } else {
-     completion([], error)
-     }
-     }
-     return task
-     }
-     
-     class func markWatchlist(movieId: Int, watchlist: Bool, completion: @escaping (Bool, Error?) -> Void) {
-     let body = MarkWatchlist(mediaType: "movie", mediaId: movieId, watchlist: watchlist)
-     taskForPOSTRequest(url: Endpoints.markWatchlist.url, responseType: TMDBResponse.self, body: body) { response, error in
-     if let response = response {
-     // separate codes are used for posting, deleting, and updating a response
-     // all are considered "successful"
-     completion(response.statusCode == 1 || response.statusCode == 12 || response.statusCode == 13, nil)
-     } else {
-     completion(false, nil)
-     }
-     }
-     }
-     
-     class func markFavorite(movieId: Int, favorite: Bool, completion: @escaping (Bool, Error?) -> Void) {
-     let body = MarkFavorite(mediaType: "movie", mediaId: movieId, favorite: favorite)
-     taskForPOSTRequest(url: Endpoints.markFavorite.url, responseType: TMDBResponse.self, body: body) { response, error in
-     if let response = response {
-     completion(response.statusCode == 1 || response.statusCode == 12 || response.statusCode == 13, nil)
-     } else {
-     completion(false, nil)
-     }
-     }
-     }
-     
-     class func downloadPosterImage(path: String, completion: @escaping (Data?, Error?) -> Void) {
-     let task = URLSession.shared.dataTask(with: Endpoints.posterImage(path).url) { data, response, error in
-     DispatchQueue.main.async {
-     completion(data, error)
-     }
-     }
-     task.resume()
-     }
-     
-     */
 }
