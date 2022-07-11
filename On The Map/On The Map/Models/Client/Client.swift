@@ -8,7 +8,7 @@
 import Foundation
 
 class APIClient {
-    static let apiKey = "58d2d637cbe360499625978f4930b693"//"YOUR_TMDB_API_KEY"
+    static let apiKey = "YOUR_API_KEY"
     
     struct Auth {
         //static var accountId = 0

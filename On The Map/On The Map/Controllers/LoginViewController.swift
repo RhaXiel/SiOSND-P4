@@ -30,6 +30,8 @@ class LoginViewController: UIViewController {
         }
     }
     
+    
+    
     func handleSessionResponse(success: Bool, error: Error?) {
         setLoggingIn(false)
         if success {
