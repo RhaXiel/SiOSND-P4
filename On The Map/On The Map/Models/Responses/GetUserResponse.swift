@@ -109,6 +109,17 @@ struct Email: Codable{
 }
  */
 
+struct GetUserResponse: Codable {
+    let firstName: String
+    let lastName: String
+    
+    enum CodingKeys: String, CodingKey {
+        case lastName = "last_name"
+        case firstName = "first_name"
+    }
+}
+
+/*
 struct GetUserReponse: Codable {
     let user: User
 }
@@ -150,7 +161,7 @@ struct User: Codable{
     }
 }
 
-
+*/
 //Another sample response
 
 /*

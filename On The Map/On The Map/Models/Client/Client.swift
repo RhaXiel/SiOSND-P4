@@ -40,7 +40,8 @@ class APIClient {
             case .deleteSession:
                 return Endpoints.base + "/session"
             case .getUser(let userId):
-                return Endpoints.base + "/users/" + userId
+                //return Endpoints.base + "/users/" + userId
+                return Endpoints.base + "/users/" + Auth.userKey
             }
         }
         
@@ -50,6 +51,8 @@ class APIClient {
         
     }
     
+    
+    ///TODO: Make TaskForRequest a single method that receives customizations via parameters.
     class func taskForGETRequest<ResponseType: Decodable>(url: URL, responseType: ResponseType.Type, completion: @escaping (ResponseType?, Error?) -> Void) -> URLSessionDataTask {
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data else {
@@ -181,9 +184,7 @@ class APIClient {
             }
             let decoder = JSONDecoder()
             do {
-                let range = (5..<data.count)
-                let newData = data.subdata(in: range)
-                let responseObject = try decoder.decode(ResponseType.self, from: newData)
+                let responseObject = try decoder.decode(ResponseType.self, from: fixData(data: data))
                 DispatchQueue.main.async {
                     completion(responseObject, nil)
                 }
@@ -197,6 +198,7 @@ class APIClient {
     }
     
     class func taskForGETSkipRequest<ResponseType: Decodable>(url: URL, responseType: ResponseType.Type, completion: @escaping (ResponseType?, Error?) -> Void) -> URLSessionDataTask {
+        print(url)
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data else {
                 DispatchQueue.main.async {
@@ -206,13 +208,12 @@ class APIClient {
             }
             let decoder = JSONDecoder()
             do {
-                let range = (5..<data.count)
-                let newData = data.subdata(in: range)
-                let responseObject = try decoder.decode(ResponseType.self, from: data)
+                let responseObject = try decoder.decode(ResponseType.self, from: fixData(data: data))
                 DispatchQueue.main.async {
                     completion(responseObject, nil)
                 }
             } catch {
+                print(error)
                 DispatchQueue.main.async {
                     completion(nil, error)
                 }
@@ -223,7 +224,11 @@ class APIClient {
         return task
     }
     
-    
+    class func fixData(data: Data) -> Data{
+        let range = 5..<data.count
+        let newData = data.subdata(in: range)
+        return newData
+    }
     
     class func getStudentLocation(limit: String?, skip: String?, order: String?, uniqueKey: String? , completion: @escaping ([StudentLocation], Error?) -> Void) {
         
@@ -275,7 +280,7 @@ class APIClient {
         }
     }
     
-    class func deleteSession(username: String, password: String, completion: @escaping (DeleteSessionResponse?, Error?) -> Void) {
+    class func deleteSession(completion: @escaping (DeleteSessionResponse?, Error?) -> Void) {
         taskForDELETERequest(url: Endpoints.deleteSession.url, responseType: DeleteSessionResponse.self) { response, error in
             if let response = response {
                 Auth.sessionId = ""
@@ -287,8 +292,8 @@ class APIClient {
         }
     }
     
-    class func getUser(userId: String, completion: @escaping (GetUserReponse?, Error?) -> Void) {
-        taskForGETSkipRequest(url: Endpoints.getUser(userId).url, responseType: GetUserReponse.self) { response, error in
+    class func getUser(userId: String, completion: @escaping (GetUserResponse?, Error?) -> Void) {
+        taskForGETSkipRequest(url: Endpoints.getUser(userId).url, responseType: GetUserResponse.self) { response, error in
             if let response = response {
                 completion(response, nil)
             } else {

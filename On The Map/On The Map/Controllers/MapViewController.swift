@@ -27,6 +27,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // is set up as the map view's delegate.
     @IBOutlet weak var mapView: MKMapView!
     
+    @IBOutlet weak var logoutButtonItem: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,6 +108,19 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             }
         }
     }
+    
+    
+    @IBAction func handleLogout(_ sender: Any) {
+        //TODO: Logout user
+        APIClient.deleteSession(){success, error in
+            if success?.session.id == nil {
+                self.dismiss(animated: true, completion: nil)
+            } else {
+                Utilities.showMessage(viewController: self, title: "Logout failed", message: error?.localizedDescription ?? "")
+            }
+        }
+    }
+    
 //    func mapView(mapView: MKMapView, annotationView: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
 //
 //        if control == annotationView.rightCalloutAccessoryView {

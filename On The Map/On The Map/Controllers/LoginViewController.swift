@@ -9,17 +9,18 @@ import UIKit
 
 class LoginViewController: UIViewController {
 
+    let signupUrl = "https://auth.udacity.com/sign-up"
     
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var signupButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         emailTextField.text = ""
         passwordTextField.text = ""
-        // Do any additional setup after loading the view.
     }
     
     
@@ -29,33 +30,54 @@ class LoginViewController: UIViewController {
             self.handleSessionResponse(success: success?.session.id != nil, error: error)
         }
     }
+
+    @IBAction func signupButtonTapped(_ sender: Any) {
+        self.openUrl(url: signupUrl)
+    }
+    
+    func openUrl(url: String??) {
+        let app = UIApplication.shared
+        guard var toOpen = url! else {
+            Utilities.showMessage(viewController: self, title: "Url Error", message: "Cannot open the url")
+            return
+        }
+        
+        toOpen = toOpen.trimmingCharacters(in: NSCharacterSet.whitespaces)
+        if (toOpen != "" && toOpen != "nil") {
+            if !toOpen.contains("http") {
+                toOpen = "http://" + toOpen
+            }
+            app.open(URL(string: toOpen)!, options: [:], completionHandler: nil)
+        } else {
+            Utilities.showMessage(viewController: self, title: "Url Error", message: "Cannot open the url")
+        }
+    }
     
     func handleSessionResponse(success: Bool, error: Error?) {
         setLoggingIn(false)
         if success {
             self.handleGetUserInfo(success: success, error: error)
         } else {
-            self.showLoginFailure(message: error?.localizedDescription ?? "")
+            Utilities.showMessage(viewController: self, title: "Login failed", message: error?.localizedDescription ?? "")
         }
     }
     
     func handleGetUserInfo(success: Bool, error: Error?){
         if success{
             APIClient.getUser(userId: APIClient.Auth.userKey){
-                success, error in
-                print(success?.user.key)
-                self.handleLoginResponse(success: success?.user.key.isEmpty != nil, error: error)
+                _success, _error in
+                self.handleLoginResponse(success: _success?.firstName.isEmpty != nil, error: _error)
             }
         }else{
-            self.showLoginFailure(message: error?.localizedDescription ?? "")
+            Utilities.showMessage(viewController: self, title: "Login failed", message: error?.localizedDescription ?? "")
         }
     }
     
     func handleLoginResponse(success: Bool, error: Error?){
         if success{
-                performSegue(withIdentifier: "completeLogin", sender: nil)
+            performSegue(withIdentifier: "loggedIn", sender: nil)
         }else{
-            self.showLoginFailure(message: error?.localizedDescription ?? "")
+            Utilities.showMessage(viewController: self, title: "Login failed", message: error?.localizedDescription ?? "")
         }
     }
     
@@ -68,11 +90,7 @@ class LoginViewController: UIViewController {
         emailTextField.isEnabled = !loggingIn
         passwordTextField.isEnabled = !loggingIn
         loginButton.isEnabled = !loggingIn
+        signupButton.isEnabled = !loggingIn
     }
     
-    func showLoginFailure(message: String) {
-        let alertVC = UIAlertController(title: "Login Failed", message: message, preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        show(alertVC, sender: nil)
-    }
 }
