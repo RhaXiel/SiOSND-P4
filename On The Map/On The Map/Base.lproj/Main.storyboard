@@ -145,9 +145,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NZ1-2f-rKT">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NZ1-2f-rKT">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                                 <items>
                                     <navigationItem title="On the map" id="fd1-Qg-gKX"/>
                                 </items>
@@ -162,10 +161,13 @@
                         <viewLayoutGuide key="safeArea" id="BOW-Ox-AEr"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="vjb-6X-WVo" firstAttribute="top" secondItem="BOW-Ox-AEr" secondAttribute="top" id="26t-ty-M2Y"/>
-                            <constraint firstItem="vjb-6X-WVo" firstAttribute="leading" secondItem="BOW-Ox-AEr" secondAttribute="leading" id="3xY-XS-axe"/>
-                            <constraint firstItem="vjb-6X-WVo" firstAttribute="bottom" secondItem="BOW-Ox-AEr" secondAttribute="bottom" id="kEF-ok-Vq9"/>
-                            <constraint firstItem="vjb-6X-WVo" firstAttribute="centerX" secondItem="rSv-la-dLp" secondAttribute="centerX" id="mlM-5E-uiN"/>
+                            <constraint firstItem="NZ1-2f-rKT" firstAttribute="centerX" secondItem="rSv-la-dLp" secondAttribute="centerX" id="0IJ-fe-FBl"/>
+                            <constraint firstItem="NZ1-2f-rKT" firstAttribute="leading" secondItem="vjb-6X-WVo" secondAttribute="leading" id="Dmi-HB-z8a"/>
+                            <constraint firstItem="vjb-6X-WVo" firstAttribute="top" secondItem="BOW-Ox-AEr" secondAttribute="top" id="PNS-9p-Xjc"/>
+                            <constraint firstItem="vjb-6X-WVo" firstAttribute="bottom" secondItem="BOW-Ox-AEr" secondAttribute="bottom" id="WSR-R1-nFp"/>
+                            <constraint firstItem="vjb-6X-WVo" firstAttribute="top" secondItem="NZ1-2f-rKT" secondAttribute="bottom" id="hVN-jz-1Z8"/>
+                            <constraint firstItem="NZ1-2f-rKT" firstAttribute="trailing" secondItem="vjb-6X-WVo" secondAttribute="trailing" id="n3z-la-EFW"/>
+                            <constraint firstItem="vjb-6X-WVo" firstAttribute="leading" secondItem="BOW-Ox-AEr" secondAttribute="leading" id="y2Y-yv-lvI"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="oeW-Ks-YTv">

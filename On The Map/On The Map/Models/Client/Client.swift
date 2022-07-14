@@ -118,17 +118,31 @@ class APIClient {
                 }
                 return
             }
+            print(data)
             let decoder = JSONDecoder()
             do {
-                let range = (5..<data.count)
-                let newData = data.subdata(in: range) /* subset response data */
-                let responseObject = try decoder.decode(ResponseType.self, from: newData)
+                let responseObject = try decoder.decode(ResponseType.self, from: fixData(data: data))
                 DispatchQueue.main.async {
                     completion(responseObject, nil)
                 }
             } catch {
-                DispatchQueue.main.async {
-                    completion(nil, error)
+                print(error)
+                ///Account not found or invalid credentials
+                do{
+                    //{
+                    //"status": 403,
+                    //"error": "Account not found or invalid credentials."
+                    //}
+                    let errorObject : ErrorReponse = try decoder.decode(ErrorReponse.self, from: fixData(data: data))
+                    let loginError: Error = LoginError.invalidCredentials(errorObject.error)
+                    print(error.localizedDescription)
+                    DispatchQueue.main.async {
+                        completion(nil, loginError)
+                    }
+                } catch{
+                    DispatchQueue.main.async {
+                        completion(nil, error)
+                    }
                 }
             }
         }
@@ -182,6 +196,7 @@ class APIClient {
                 }
                 return
             }
+            print(data)
             let decoder = JSONDecoder()
             do {
                 let responseObject = try decoder.decode(ResponseType.self, from: fixData(data: data))
@@ -189,6 +204,7 @@ class APIClient {
                     completion(responseObject, nil)
                 }
             } catch {
+                print(error)
                 DispatchQueue.main.async {
                     completion(nil, error)
                 }

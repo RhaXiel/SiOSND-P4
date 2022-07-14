@@ -17,8 +17,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var signupButton: UIButton!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         emailTextField.text = ""
         passwordTextField.text = ""
     }
@@ -75,6 +75,7 @@ class LoginViewController: UIViewController {
     
     func handleLoginResponse(success: Bool, error: Error?){
         if success{
+            
             performSegue(withIdentifier: "loggedIn", sender: nil)
         }else{
             Utilities.showMessage(viewController: self, title: "Login failed", message: error?.localizedDescription ?? "")

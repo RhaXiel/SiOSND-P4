@@ -113,7 +113,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBAction func handleLogout(_ sender: Any) {
         //TODO: Logout user
         APIClient.deleteSession(){success, error in
-            if success?.session.id == nil {
+            if APIClient.Auth.sessionId == "" {
+                Utilities.showMessage(viewController: self, title: "Logged out succesfully", message: "Returning to loggin screen.")
                 self.dismiss(animated: true, completion: nil)
             } else {
                 Utilities.showMessage(viewController: self, title: "Logout failed", message: error?.localizedDescription ?? "")
