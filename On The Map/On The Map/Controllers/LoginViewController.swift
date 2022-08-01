@@ -32,25 +32,7 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func signupButtonTapped(_ sender: Any) {
-        self.openUrl(url: signupUrl)
-    }
-    
-    func openUrl(url: String??) {
-        let app = UIApplication.shared
-        guard var toOpen = url! else {
-            Utilities.showMessage(viewController: self, title: "Url Error", message: "Cannot open the url")
-            return
-        }
-        
-        toOpen = toOpen.trimmingCharacters(in: NSCharacterSet.whitespaces)
-        if (toOpen != "" && toOpen != "nil") {
-            if !toOpen.contains("http") {
-                toOpen = "http://" + toOpen
-            }
-            app.open(URL(string: toOpen)!, options: [:], completionHandler: nil)
-        } else {
-            Utilities.showMessage(viewController: self, title: "Url Error", message: "Cannot open the url")
-        }
+        Utilities.openUrl(viewController: self, url: signupUrl)
     }
     
     func handleSessionResponse(success: Bool, error: Error?) {
@@ -66,7 +48,9 @@ class LoginViewController: UIViewController {
         if success{
             APIClient.getUser(userId: APIClient.Auth.userKey){
                 _success, _error in
-                self.handleLoginResponse(success: _success?.firstName.isEmpty != nil, error: _error)
+                StudentsData.currentUser = _success
+                //self.handleLoginResponse(success: _success?.firstName.isEmpty != nil, error: _error)
+                self.handleLoginResponse(success: StudentsData.currentUser != nil, error: _error)
             }
         }else{
             Utilities.showMessage(viewController: self, title: "Login failed", message: error?.localizedDescription ?? "")
@@ -75,7 +59,6 @@ class LoginViewController: UIViewController {
     
     func handleLoginResponse(success: Bool, error: Error?){
         if success{
-            
             performSegue(withIdentifier: "loggedIn", sender: nil)
         }else{
             Utilities.showMessage(viewController: self, title: "Login failed", message: error?.localizedDescription ?? "")

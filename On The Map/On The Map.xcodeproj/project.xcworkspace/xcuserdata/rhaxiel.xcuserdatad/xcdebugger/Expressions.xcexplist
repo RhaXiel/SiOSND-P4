@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "StudentsTableViewController.tableView(_:cellForRowAt:):StudentsTableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "StudentsData.students.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "APIClient.Endpoints.stringValue.getter:Client.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "params">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "APIClient.Endpoints.url.getter:Client.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "stringValue">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in LoginViewController.handleGetUserInfo(success:error:):LoginViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "APIClient.Auth.userKey">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static APIClient.taskForGETSkipRequest&lt;&#x3c4;_0_0&gt;(url:responseType:completion:):Client.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "APIClient.Auth.userKey">
+            </PersistentString>
+            <PersistentString
+               value = "StudentsData.currentLocationId">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "CompleteAddLocationViewController.handleConfirmClicked(_:):CompleteAddLocationViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "APIClient.Auth.userKey">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

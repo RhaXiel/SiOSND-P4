@@ -11,15 +11,12 @@ class APIClient {
     static let apiKey = "YOUR_API_KEY"
     
     struct Auth {
-        //static var accountId = 0
-        //static var requestToken = ""
         static var sessionId = ""
         static var userKey = ""
     }
     
     enum Endpoints {
         static let base = "https://onthemap-api.udacity.com/v1"
-        //static let apiKeyParam = "?api_key=\(TMDBClient.apiKey)"
         
         case getStudentLocation(GetStudentLocationParams)
         case postStudentLocation
@@ -30,9 +27,9 @@ class APIClient {
         
         var stringValue: String {
             switch self {
-            case .getStudentLocation(let params): return Endpoints.base + "/StudentLocation/?" + ((params.limit != nil) ?  "&"  + params.limit! : "") + ((params.skip != nil) ?  "&"  + params.skip! : "") + ((params.order != nil) ?  "&-"  + params.order! : "") + ((params.uniqueKey != nil) ?  "&"  + params.uniqueKey! : "")
+            case .getStudentLocation(let params): return Endpoints.base + "/StudentLocation" + paramBuilder(params: params)
             case .postStudentLocation:
-                return Endpoints.base + "/StudentLocation/"
+                return Endpoints.base + "/StudentLocation"
             case .putStudentLocation(let objectId):
                 return Endpoints.base + "/StudentLocation/" + objectId
             case .postSession:
@@ -40,8 +37,7 @@ class APIClient {
             case .deleteSession:
                 return Endpoints.base + "/session"
             case .getUser(let userId):
-                //return Endpoints.base + "/users/" + userId
-                return Endpoints.base + "/users/" + Auth.userKey
+                return Endpoints.base + "/users/" + userId
             }
         }
         
@@ -49,8 +45,16 @@ class APIClient {
             return URL(string: stringValue)!
         }
         
+        func paramBuilder(params: GetStudentLocationParams) -> String {
+            if (params.uniqueKey == nil && params.limit == nil && params.order == nil && params.skip == nil ){
+                return ""
+            }
+            var paramResult = "?" + ((params.limit != nil) ?  "limit="  + params.limit! + "&" : "") + ((params.skip != nil) ?  "skip="  + params.skip! + "&" : "") + ((params.order != nil) ?  "order="  + params.order! + "&" : "") + ((params.uniqueKey != nil) ?  "uniqueKey="  + params.uniqueKey! : "")
+            
+            return paramResult.hasSuffix("&") ? String(paramResult.dropLast()) : paramResult
+        }
+        
     }
-    
     
     ///TODO: Make TaskForRequest a single method that receives customizations via parameters.
     class func taskForGETRequest<ResponseType: Decodable>(url: URL, responseType: ResponseType.Type, completion: @escaping (ResponseType?, Error?) -> Void) -> URLSessionDataTask {
@@ -118,7 +122,6 @@ class APIClient {
                 }
                 return
             }
-            print(data)
             let decoder = JSONDecoder()
             do {
                 let responseObject = try decoder.decode(ResponseType.self, from: fixData(data: data))
@@ -126,7 +129,6 @@ class APIClient {
                     completion(responseObject, nil)
                 }
             } catch {
-                print(error)
                 ///Account not found or invalid credentials
                 do{
                     //{
@@ -135,7 +137,6 @@ class APIClient {
                     //}
                     let errorObject : ErrorReponse = try decoder.decode(ErrorReponse.self, from: fixData(data: data))
                     let loginError: Error = LoginError.invalidCredentials(errorObject.error)
-                    print(error.localizedDescription)
                     DispatchQueue.main.async {
                         completion(nil, loginError)
                     }
@@ -196,7 +197,6 @@ class APIClient {
                 }
                 return
             }
-            print(data)
             let decoder = JSONDecoder()
             do {
                 let responseObject = try decoder.decode(ResponseType.self, from: fixData(data: data))
@@ -204,7 +204,6 @@ class APIClient {
                     completion(responseObject, nil)
                 }
             } catch {
-                print(error)
                 DispatchQueue.main.async {
                     completion(nil, error)
                 }
@@ -214,7 +213,6 @@ class APIClient {
     }
     
     class func taskForGETSkipRequest<ResponseType: Decodable>(url: URL, responseType: ResponseType.Type, completion: @escaping (ResponseType?, Error?) -> Void) -> URLSessionDataTask {
-        print(url)
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data else {
                 DispatchQueue.main.async {
@@ -229,7 +227,6 @@ class APIClient {
                     completion(responseObject, nil)
                 }
             } catch {
-                print(error)
                 DispatchQueue.main.async {
                     completion(nil, error)
                 }
@@ -265,6 +262,7 @@ class APIClient {
         
         taskForPOSTRequest(url: Endpoints.postStudentLocation.url, responseType: CreatedStudentLocationResponse.self, body: body) { response, error in
             if let response = response {
+                StudentsData.currentLocationId = response.objectId
                 completion(response, nil)
             } else {
                 completion(nil, error)

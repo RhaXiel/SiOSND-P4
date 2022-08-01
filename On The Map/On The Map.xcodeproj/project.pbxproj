@@ -33,6 +33,10 @@
 		30C1C310287B9A2D0092AFA4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C1C30F287B9A2D0092AFA4 /* LoginViewController.swift */; };
 		30C1C312287B9A480092AFA4 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C1C311287B9A480092AFA4 /* MapViewController.swift */; };
 		30C1C314287B9B1B0092AFA4 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C1C313287B9B1B0092AFA4 /* GradientView.swift */; };
+		30C8AC50288B7CAC00E1B967 /* StudentsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C8AC4F288B7CAC00E1B967 /* StudentsData.swift */; };
+		30C8AC54288E40FA00E1B967 /* StudentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C8AC53288E40FA00E1B967 /* StudentsTableViewCell.swift */; };
+		30C8AC5628978DB900E1B967 /* AddLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C8AC5528978DB900E1B967 /* AddLocationViewController.swift */; };
+		30C8AC5828979B0200E1B967 /* CompleteAddLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C8AC5728979B0200E1B967 /* CompleteAddLocationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +68,10 @@
 		30C1C30F287B9A2D0092AFA4 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		30C1C311287B9A480092AFA4 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		30C1C313287B9B1B0092AFA4 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		30C8AC4F288B7CAC00E1B967 /* StudentsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentsData.swift; sourceTree = "<group>"; };
+		30C8AC53288E40FA00E1B967 /* StudentsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentsTableViewCell.swift; sourceTree = "<group>"; };
+		30C8AC5528978DB900E1B967 /* AddLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationViewController.swift; sourceTree = "<group>"; };
+		30C8AC5728979B0200E1B967 /* CompleteAddLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteAddLocationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +144,7 @@
 			children = (
 				30C1C313287B9B1B0092AFA4 /* GradientView.swift */,
 				30A3CDEA287BA1D100427E1A /* UIColorExtensions.swift */,
+				30C8AC53288E40FA00E1B967 /* StudentsTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -146,6 +155,8 @@
 				30C1C30F287B9A2D0092AFA4 /* LoginViewController.swift */,
 				30C1C311287B9A480092AFA4 /* MapViewController.swift */,
 				30A3CE04287D447F00427E1A /* StudentsTableViewController.swift */,
+				30C8AC5528978DB900E1B967 /* AddLocationViewController.swift */,
+				30C8AC5728979B0200E1B967 /* CompleteAddLocationViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -154,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				30A3CDEC287BC89700427E1A /* StudentLocation.swift */,
+				30C8AC4F288B7CAC00E1B967 /* StudentsData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -263,12 +275,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				30A3CE01287C100F00427E1A /* DeleteSessionResponse.swift in Sources */,
+				30C8AC50288B7CAC00E1B967 /* StudentsData.swift in Sources */,
 				30A3CDF1287BF93100427E1A /* PostSessionRequest.swift in Sources */,
 				30A3CDFF287C0B0000427E1A /* PostSessionResponse.swift in Sources */,
 				30A3CE05287D447F00427E1A /* StudentsTableViewController.swift in Sources */,
+				30C8AC5628978DB900E1B967 /* AddLocationViewController.swift in Sources */,
 				30C1C310287B9A2D0092AFA4 /* LoginViewController.swift in Sources */,
 				30A3CE03287C113900427E1A /* GetUserResponse.swift in Sources */,
 				30C1C2F9287B92A50092AFA4 /* ViewController.swift in Sources */,
+				30C8AC5828979B0200E1B967 /* CompleteAddLocationViewController.swift in Sources */,
 				30A3CDF3287BFA0D00427E1A /* UpdateLocationRequest.swift in Sources */,
 				30A3CDFD287C055D00427E1A /* PostStudentLocationRequest.swift in Sources */,
 				30A3CE0A287FF2A800427E1A /* ErrorReponse.swift in Sources */,
@@ -278,6 +293,7 @@
 				30C1C312287B9A480092AFA4 /* MapViewController.swift in Sources */,
 				30A3CDF7287BFFB200427E1A /* CreatedStudentLocationReponse.swift in Sources */,
 				30A3CDF5287BFB5500427E1A /* StudentLocationResponse.swift in Sources */,
+				30C8AC54288E40FA00E1B967 /* StudentsTableViewCell.swift in Sources */,
 				30A3CDF9287C017F00427E1A /* UpdateStudentLocationResponse.swift in Sources */,
 				30A3CE08287D4AF200427E1A /* Utilities.swift in Sources */,
 				30A3CE0C287FF60100427E1A /* Errors.swift in Sources */,
