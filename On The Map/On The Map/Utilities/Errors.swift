@@ -20,6 +20,3 @@ extension LoginError: LocalizedError {
         }
     }
 }
-
-//let error: Error = LoginError.invalidCredentials("Hola")
-//print(error.localizedDescription) // A user-friendly description of the error.

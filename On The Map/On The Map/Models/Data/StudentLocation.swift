@@ -17,8 +17,6 @@ struct StudentLocation: Codable {
     let mapString: String
     let mediaURL: String
     let objectId: String
-    let uniqueKey: String //Sample is string.
+    let uniqueKey: String
     let updatedAt: String
-    //let ACL: String
-
 }
