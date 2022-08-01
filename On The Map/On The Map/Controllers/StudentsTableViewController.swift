@@ -80,8 +80,8 @@ class StudentsTableViewController: UITableViewController {
         APIClient.deleteSession(){success, error in
             if APIClient.Auth.sessionId == "" {
                 StudentsData.currentUser = nil
-                Utilities.showMessage(viewController: self.parent!.parent!, title: "Logged out succesfully", message: "Returning to loggin screen.")
-                self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true)
+                //Utilities.showMessage(viewController: self.parent!.parent!, title: "Logged out succesfully", message: "Returning to loggin screen.")
             } else {
                 Utilities.showMessage(viewController: self, title: "Logout failed", message: error?.localizedDescription ?? "")
             }
@@ -93,7 +93,7 @@ class StudentsTableViewController: UITableViewController {
     }
 
     @IBAction func handleAddLocation(_ sender: Any) {
-        if APIClient.Auth.userKey != "" {
+        if StudentsData.currentLocationId != nil {
             Utilities.showYesCancelWithCompletion(viewController: self, title: "Confirm update?", message: "Confirm update current location?") { (success) in
                 if success {
                     self.navigateToAddLocationViewController()

@@ -22,7 +22,6 @@ class CompleteAddLocationViewController: UIViewController, MKMapViewDelegate  {
             return
         }
         setAnnotation(placemark: placemark)
-        //self.mapView.delegate = self
     }
     
     func setAnnotation(placemark: CLPlacemark) {
@@ -38,7 +37,6 @@ class CompleteAddLocationViewController: UIViewController, MKMapViewDelegate  {
         }
     }
     
-    // MARK: Following will set the region, to focus on the map where the annotation placed.
     func setRegion(with placemark: CLPlacemark) {
         guard let coordinate = placemark.location?.coordinate else {
             return

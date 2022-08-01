@@ -19,14 +19,6 @@ class AddLocationViewController: UIViewController {
     
     var placemark: CLPlacemark?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        /*
-        APIClient.getU
-        ApiClient.getUserData(completion: handleUserDataResponse(success:error:))
-         */
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "completeAddLocationSegue" {
             let vc = segue.destination as! CompleteAddLocationViewController

@@ -182,7 +182,11 @@
                                     <action selector="handleRefresh:" destination="uW0-L6-RkW" id="5vw-OH-KnZ"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Add" image="mappin.and.ellipse" catalog="system" id="aTr-2j-xQ8"/>
+                            <barButtonItem title="Add" image="mappin.and.ellipse" catalog="system" id="aTr-2j-xQ8">
+                                <connections>
+                                    <action selector="handleAddLocation:" destination="uW0-L6-RkW" id="Dvc-Db-wC6"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>

@@ -112,8 +112,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         APIClient.deleteSession(){success, error in
             if APIClient.Auth.sessionId == "" {
                 StudentsData.currentUser = nil
-                Utilities.showMessage(viewController: self.parent!.parent!, title: "Logged out succesfully", message: "Returning to loggin screen.")
-                self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true)
+                //Utilities.showMessage(viewController: self.parent!.parent!, title: "Logged out succesfully", message: "Returning to loggin screen.")
             } else {
                 Utilities.showMessage(viewController: self, title: "Logout failed", message: error?.localizedDescription ?? "")
             }
@@ -122,6 +122,24 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBAction func handleRefresh(_ sender: Any) {
         getStudentList()
+    }
+    
+    private func navigateToAddLocationViewController() {
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "AddLocationViewController") {
+            self.navigationController?.show(vc, sender: nil)
+        }
+    }
+    
+    @IBAction func handleAddLocation(_ sender: Any) {
+        if StudentsData.currentLocationId != nil {
+            Utilities.showYesCancelWithCompletion(viewController: self, title: "Confirm update?", message: "Confirm update current location?") { (success) in
+                if success {
+                    self.navigateToAddLocationViewController()
+                }
+            }
+        } else {
+            navigateToAddLocationViewController()
+        }
     }
     
 }
