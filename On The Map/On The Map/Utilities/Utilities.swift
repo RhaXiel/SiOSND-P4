@@ -10,9 +10,17 @@ import UIKit
 
 class Utilities{
     static func showMessage(viewController: UIViewController, title: String, message: String) {
+        var rootViewController = UIApplication.shared.keyWindow?.rootViewController
+        if let navigationController = rootViewController as? UINavigationController {
+            rootViewController = navigationController.viewControllers.first
+        }
+        if let tabBarController = rootViewController as? UITabBarController {
+            rootViewController = tabBarController.selectedViewController
+        }
         let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         viewController.show(alertVC, sender: nil)
+        //rootViewController?.show(alertVC, sender: nil)
     }
     
     static func openUrl(viewController: UIViewController, url: String??) {

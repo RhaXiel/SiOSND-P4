@@ -68,14 +68,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     private func getStudentList() {
-        APIClient.getStudentLocation(limit: nil, skip: nil, order: "-updatedAt", uniqueKey: nil){success, error in
+        APIClient.getStudentLocation(limit: "100", skip: nil, order: "-updatedAt", uniqueKey: nil){success, error in
             self.handleGetStudentsResponse(students: success, error: error)
         }
     }
     
     func handleGetStudentsResponse(students: [StudentLocation], error: Error?) {
         if error != nil {
-            Utilities.showMessage(viewController: self, title: "Get Students Error", message: error?.localizedDescription ?? "")
+            Utilities.showMessage(viewController: self.parent!.parent!, title: "Get Students Error", message: error?.localizedDescription ?? "")
         } else {
             StudentsData.students = students
             loadStudentLocations()

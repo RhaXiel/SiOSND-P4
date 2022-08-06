@@ -17,7 +17,15 @@ class AddLocationViewController: UIViewController {
     
     @IBOutlet weak var findLocationButton: UIButton!
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     var placemark: CLPlacemark?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setGeocoding(false)
+        
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "completeAddLocationSegue" {
@@ -40,24 +48,37 @@ class AddLocationViewController: UIViewController {
         }
     }
     
+    private func setGeocoding(_ loading: Bool) {
+        if loading {
+            self.activityIndicator.startAnimating()
+        } else {
+            self.activityIndicator.stopAnimating()
+        }
+        
+        findLocationButton.isEnabled = !loading
+    }
+    
     func handleUserDataResponse(success: Bool, error: Error?) {
         if error != nil {
-            Utilities.showMessage(viewController: self, title: "User data error", message: "Could not get public user data!")
+            Utilities.showMessage(viewController: self.parent!.parent!, title: "User data error", message: "Could not get public user data!")
         }
     }
     
     
     @IBAction func handleAddLocationClicked(_ sender: Any) {
         if isValidFields() {
+            setGeocoding(true)
             CLGeocoder().geocodeAddressString((locationTextField.text)!) { (placemarks, error) in
                 guard let placemarks = placemarks else {
                     DispatchQueue.main.async {
-                        Utilities.showMessage(viewController: self, title: "Geocode Error", message: "Error finding location!")
+                        self.setGeocoding(false)
+                        Utilities.showMessage(viewController: self.parent!.parent!, title: "Geocode Error", message: "Error finding location!")
                     }
                     return
                 }
                 self.placemark = placemarks.first
                 DispatchQueue.main.async {
+                    self.setGeocoding(false)
                     self.performSegue(withIdentifier: "completeAddLocationSegue", sender: self)
                 }
             }
